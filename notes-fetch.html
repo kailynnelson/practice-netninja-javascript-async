@@ -1,10 +1,48 @@
 <body>
 	<h1>Fetch API</h1>
-	<p>resource: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API</a></p>
+	<p>Take me to <a href="index.html">home</a></p>
+	<p>resource: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API" target="_blank">https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API</a></p>
 	<p>
 		<ul>
 			<li>an 'interface' for fetching resources</li>
 			<li>more modern than XMLHttpRequest</li>
+			<li>one mandatory argument: path to the resource to be fetched</li>
+			<li>returns a <em>promise</em> that <em>resolves</em> to the <em>response</em> (successful or not)</li>
+			<li>optionally pass an <em>init</em> options object as the 2nd arg</li>
 		</ul>
 	</p>
+	<h2>diffs from jquery</h2>
+	<p>
+		<ul>
+			<li>promise returned from fetch won't reject on http error status</li>
+			<li>will only reject on <em>network failure</em> or if anything prevented the request from completing</li>
+			<li>something something cookies...</li>
+		</ul>
+	</p>
+	<h2>fetch interfaces</h2>
+	<p>
+		<ul>
+			<li>WindowOrWorkerGlobalScope.fetch() => to fetch a resource</li>
+			<li>Headers => response/request headers. query and take diff actions per the results</li>
+			<li>Request => of a resource</li>
+			<li>Response => to a request</li>
+		</ul>
+	</p>
+	<h2>fetch mixin</h2>
+	<p>
+		<ul>
+			<li>Body => rel'd to the response/request. declare content type and handling instructions</li>
+		</ul>
+	</p>
+	<h2>browser support</h2>
+	<p>
+		<ul>
+			<li>chrome, edge, firefox, opera, safari... everyone but:</li>
+			<li>internet explorer</li>
+		</ul>
+	</p>
+	<h2>see also/todo</h2>
+	<ul>
+		<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">HTTP CORS</a>: cross-origin resource sharing</li>
+	</ul>
 </body>
