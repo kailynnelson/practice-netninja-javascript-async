@@ -7,6 +7,168 @@
 			<li>REST = REpresentational State Transfer</li>
 			<li>presented by Roy Fielding, 2000</li>
 			<li>architectural style for distributed hypermedia systems 🤔</li>
+			<li>six guiding constraints for an interface to be <em>RESTful</em></li>
+		</ul>
+	</p>
+	<h2>a RESTful interface</h2>
+	<p>
+		<ol>
+			<li>
+				<strong>client-server</strong> => separation of concerns. UI -x- data storage. improves portability across multiple platforms, improves scalability by simplifying server components.
+				<ul>
+					<li>what does <mark>portability</mark> mean?</li>
+					<li>not really sure what the "before" is</li>
+				</ul>
+			</li>
+			<li>
+				<strong>stateless</strong> => each request from client to server must contain all info necessary to understand the request. can't take advantage of any stored context on the server.
+				<ul>
+					<li>this reminds me of best practices for commenting on code so anyone can come to it and understand it. and just serving up thoughtful questions in general, empathizing with the person you're posing your question to and realizing they are in a different frame of mind. so you give them additional context to help them switch.</li>
+					<li>what would <mark>stored context</mark> on the server be?</li>
+					<li>what would <mark>session state</mark> on the client be?</li>
+				</ul>
+			</li>
+			<li>
+				<strong>cacheable</strong> => data within response/request labeled (implicity or explicity) as cache or non-cache. if cache, then the client is given the right to reuse the response data for later, equivalent requests.
+				<ul>
+					<li>what are some examples of when you would want cache or non-cache?</li>
+					<li>thinking of our examples on client projects, like <code>ref_</code> tables...</li>
+				</ul>
+			</li>
+			<li>
+				<strong>uniform interface</strong> => software eng principle of generality, applied to the component interface. simplifies overall architecture and improves visibility of interactions. multiple architectural constraints are needed to guide the behavior of components.
+				<ul>
+					<li>if i'm considering this correctly, it's reminding me of how we teach best practices for coding in general. i don't know that we've explicitly called them these principles, but these definitions are familiar.</li>
+				</ul>
+				four interface constraints:
+				<ol type="a">
+					<li><em>identification of resources</em></li>
+					<li><em>manipulation of resources thru representations</em></li>
+					<li><em>self-descriptive messages</em></li>
+					<li><em>hypermedia as the engine of the application state</em> => what on earth does this mean</li>
+				</ol>
+			</li>
+			<li>
+				<strong>layered system</strong> => allows an architecture to be composed of hierarchical layers by constraining component behavior. each component can't "see" beyond the immediate layer within which they're interacting.
+				<ul>
+					<li>is this the same as or different from... separation of concerns, ...there's another word for it. why we create angular components. responsibility... modular... not recalling.</li>
+				</ul>
+			</li>
+			<li>
+				<strong>(optional) code on demand</strong> => allows client func to be extended by downloading and executing code in the form of applets or scripts. simplifies by reducing the num of features required to be pre-implemented.
+				<ul>
+					<li>not really sure what this means. i think i need to clarify what <mark>server</mark> and <mark>client</mark> are.</li>
+					<li>are we thinking of... how different browsers support/don't support some CSS rules?
+				</ul>
+			</li>
+		</ol>
+	</p>
+	<h2>the resource</h2>
+	<p>
+		<ul>
+			<li>the key abstraction of info</li>
+			<li>a document, image, temporal service, collection of other resources, non-virtual object (e.g., a person), etc.</li>
+			<li>
+				REST uses a <em>resource identifier</em> to identify the particular resource involved in an interaction between components
+				<ul>
+					<li>i think this is what was going on with my spotify api test?</li>
+				</ul>
+			</li>
+			<li>
+				the state of the resource at any given timestamp is known as <em>resource representation</em>
+				<ul>
+					<li>data, metadata describing the data, hypermedia links (help clients transition to the next desired state)</li>
+					<li>thinking of <a href="https://en.wikipedia.org/wiki/Quantum_entanglement" target="_blank">quantum entanglement</a>... not super relevant, just the snapshot thing triggered me</li>
+				</ul>
+			</li>
+			<li>data format of a representation is a <em>media type</em></li>
+			<li>media type => a spec that defines how a representation is to be processed</li>
+			<li><q>A truly RESTful API looks like hypertext.</q></li>
+			<li>every addressable unit of info carries an address, either explicitly (e.g., link and id attributes) or implicitly (e.g., media type definition, representation structure)</li>
+			<li>
+				roy fielding: <q>Hypertext (or hypermedia) means the simultaneous presentation of information and controls such that the information becomes the affordance through which the user (or automation) obtains choices and selects actions. Remember that hypertext does not need to be HTML (or XML or JSON) on a browser. Machines can follow links when they understand the data format and relationship types.</q>
+				<ul>
+					<li>this reminds me of japanese parents in that one psych study. how it seemed japanese mothers would teach their children about relationships between objects... not sure this is what i was looking for, but here's <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3493793/" target="_blank">a study on person- and object-oriented interactions</a> and another one on <a href="https://www.jstor.org/stable/1131208?origin=crossref&seq=1" target="_blank">cultural variation in maternal speech</a></li>
+					<li>let's try this: kids can use objects when they understand what the objects are made of and how the object might be used or how it relates to other objects (including inanimate and animate objects)?</li>
+				</ul>
+			</li>
+			<li>
+				resource representations => self-descriptive; the client doesn't need to know if a resource is employee or device. the client should act on the basis of media type associated with the resource. (apparently) you'll end up creating lots of custom media types (normally one media type assoc'd with one resource)
+				<ul>
+					<li>every media type defines a default processing model</li>
+					<li>HTML, for example, defines a rendering process for hypertext and browser behavior around each element. has no relation to resource methods GET/PUT/POST/DELETE, other than some media type elements will define a process model that goes like "anchor elements with an href attribute create a hypertext link. when selected, the link invokes a retrieval request (GET) on the URI corresponding to the CDATA-encoded href attribute"... so it'll kinda reference the requests, but it doesn't have a <em>relation</em> to them.</li>
+				</ul>
+			</li>
+		</ul>
+	</p>
+	<h2>resource methods</h2>
+	<p>
+		<ul>
+			<li>resource methods are used to perform the desired transition</li>
+			<li>ppl often incorrectly relate resource methods to HTTP GET/PUT/POST/DELETE methods</li>
+			<li>
+				ol' roy boy really just emphasizes <em>uniform interface</em>; if you want to use HTTP POST for updates (rather than the generally recommended PUT), that's ok (read: "RESTful") as long as you're consistent
+				<ul>
+					<li>hmmm. CRUD = create read update delete. GET = read, PUT = update, POST = create, DELETE = delete?</li>
+				</ul>
+			</li>
+			<li>
+				ideally, everything that is needed to change the resource state should be part of the API response for that resource, including methods and in what state they'll leave the representation
+				<ul>
+					<li>is this <a href="https://www.sciencedirect.com/topics/neuroscience/memory-consolidation" target="_blank">how memories are consolidated</a>? methods might be "strengthening of synaptic connections between neurons", but what is the state? might this be explicitly defined in the representation?</li>
+				</ul>
+			</li>
+			<li>a REST API should be entered w/o prior knowledge, beyond the initial URI (bookmark) and set of standardized media types appropriate for the intended audience (i.e., expected to be understood by any client that might use the API)</li>
+			<li>all app state transitions must be driven by client selection of server-provided choices that are 1) present in the received representations or 2) implied by the user's manipulations of those representations</li>
+			<li>transitions may be determined (or limited) the client's knowledge of media types and resource comm mechanisms (both of which may be improved on-the-fly, such as with code-on-demand)</li>
+			<li>query-based API results should be represented by a list of links w/ summary info, not arrays of original resource representations</li>
+			<li>
+				<q>The query is not a substitute for identification of resources</q>
+				<ul>
+					<li>*sing-songy voice* i don't know what this means... no wait, maybe i do. are we talking about how, for example, the json data in the <strike>request resource</strike> <em>response object</em> is not replicated or summarized, but <strike><mark>it</mark> (who??)</strike> the response object has a "link" to access the data through the <code>.json()</code> method?</li>
+					<li>i think i'm on to something... from my notes earlier: <code>// the json() method on the response object gets us the data we need</code></li>
+				</ul>
+			</li>
+		</ul>
+	</p>
+	<h2>yo!! REST and HTTP are //not the same//</h2>
+	<p>
+		<ul>
+			<li>
+				ol' roy advocates using REST principles more strictly because REST also intends to make the web (internet) more streamlined and standardized
+				<ul>
+					<li>is this for or against <a href="https://www.w3.org/People/Berners-Lee/" target="_blank">tim berners-lee</a>'s original concept for the internet? or just way on its own topic at this point...</li>
+				</ul>
+			</li>
+			<li><q>as long as you are following the 6 guiding principles of REST, you can call your interface RESTful</q></li>
+			<li>data and func are considered resources</li>
+			<li>these resources are accessed using <mark>URI (uniform resource identifiers)</mark></li>
+			<li>
+				these resources are acted upon using a set of simple, well-defined operations
+				<ul>
+					<li>what are they?</li>
+				</ul>
+			</li>
+			<li>clients and servers exchange representations of resources using a standardized interface and protocool (typically HTTP)</li>
+			<li>resources are decoupled from representation so their content can be accessed in a variety of formats, e.g., HTML, XML, plaintext, PDF, JPEG, JSON, etc.</li>
+			<li>metadata about the resource is available and used to, say, control caching, detect transmission errors, negotiate appropriate representation format (...), perform authentication or access control... (<mark>JSON Web Tokens</mark>)</li>
+			<li>
+				most importantly: every interaction with a resource is <mark>stateless</mark>
+				<ul>
+					<li>and i still don't know (for sure) what that means (●'◡'●)</li>
+					<li>thinking some applied practice will help... back to the spotify api next!</li>
+					<li>remembering: the response object json method</li>
+				</ul>
+			</li>
+		</ul>
+	</p>
+	<hr />
+	All principles above will help ensure RESTful apps are simple, lightweight, and fast
+	<h2>see also/todos</h2>
+	<p>
+		<ul>
+			<li>TBL's talk on <a href="https://www.ted.com/talks/tim_berners_lee_a_magna_carta_for_the_web/details" target="_blank">"What kind of Internet do we want?"</a></li>
+			<li><a href="https://en.wikipedia.org/wiki/Client%E2%80%93server_model" target="_blank">Client-server model Wikipedia article</a>: <q>[The] client-server model is a distributed app structure that partitions tasks or workloads between <strong>the providers of a service, called <em>servers</em> and the service requesters, called <em>clients</em>.</strong></q></li>
 		</ul>
 	</p>
 </body>
